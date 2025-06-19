@@ -16,6 +16,6 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
 
-   usage
-   api
+   Signing up and Logging in <signingup>
