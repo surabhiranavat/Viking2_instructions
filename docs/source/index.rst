@@ -1,17 +1,16 @@
-Welcome to Lumache's documentation!
+Welcome to Viking HPC documentation for ancient DNA analysis!
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+Hello BioArCh-ers! this is the documentation for all things aDNA (and/or modern DNA) bioinformatics analysis.  
+It builds on the comprehensive `Viking docs <https://vikingdocs.york.ac.uk>`_
+and is tailored for aDNA analysis on the Viking HPC at the University of York.
 
 Check out the :doc:`usage` section for further information, including
 how to :ref:`installation` the project.
 
 .. note::
 
-   This project is under active development.
+   This documentation is under construction.
 
 Contents
 --------
