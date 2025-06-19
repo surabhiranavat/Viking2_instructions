@@ -2,9 +2,8 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'Viking docs for aDNA analysis'
+author = 'Surabhi Ranavat'
 
 release = '0.1'
 version = '0.1.0'
