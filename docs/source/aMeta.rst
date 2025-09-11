@@ -120,12 +120,6 @@ This is where you need to modify the runtime, resources, slurm partitions etc.
 
 .. code-block:: console
 
-   # Example profile file. See
-   # https://snakemake.readthedocs.io/en/stable/executing/cli.html?highlight=profile#profiles
-   # for an introduction to Snakemake profiles and
-   # https://github.com/Snakemake-Profiles for a collection of profiles
-   # targeting various computing environments
-   
    keep-going: true
    restart-times: 1
    max-jobs-per-second: 1
