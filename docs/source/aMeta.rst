@@ -116,7 +116,8 @@ Here, only the microbial NT database for Bowtie2 and KrakenUniq is used (the ful
 Editing the profile config file
 ^^^^^^^^^^^^
 
-This is where you need to modify the runtime, resources 
+This is where you need to modify the runtime, resources, slurm partitions etc. 
+
 .. code-block:: console
 
    # Example profile file. See
