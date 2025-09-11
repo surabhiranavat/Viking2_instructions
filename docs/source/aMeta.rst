@@ -165,6 +165,8 @@ This is where you need to modify the runtime, resources, slurm partitions etc.
    jobs: 40
    # cluster-status: "status.py"
 
+Once this is done, create a new ``tmux`` session
+
 
 
 
