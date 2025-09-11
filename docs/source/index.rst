@@ -19,3 +19,4 @@ Contents
    :maxdepth: 2
 
    Signing up and Logging in <signingup>
+   aMeta instructions <aMeta>
