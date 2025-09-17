@@ -84,12 +84,12 @@ To check if your sample file is tab separated, do
 
    cat -A samples.tsv
 
-The output should be the contents of the file and ``^I`` where tabs are expected.
+The output should be the contents of the file and ``^I`` where tabs are expected, and ``$`` for end of line.
 
 
 Editing the config file
 ^^^^^^^^^^^^
-In the ``config`` folder, edit the ``config.yaml`` as follows:
+In the ``config`` folder, edit the ``config.yaml`` as follows (depending on if you want to run only prokaryotes or prokaryotes + eukaryotes):
 
 .. code-block:: console
    
@@ -131,16 +131,17 @@ This is where you need to modify the runtime, resources, slurm partitions etc.
    # Resources; fine-tune at will
    ##############################
    default-resources:
-     - runtime=120
+     - runtime=360
      - mem_mb=16384
      - disk_mb=1000000
-     - threads=8
+     - threads=10
      - slurm_partition=nodes
    
    set-threads:
      - Cutadapt_Adapter_Trimming=8
      - Bowtie2_Pathogenome_Alignment=10
-     - Malt=10
+     - Malt=16
+     - Build_Malt_DB=16
      - KrakenUniq=32
    
    set-resources:
@@ -148,24 +149,95 @@ This is where you need to modify the runtime, resources, slurm partitions etc.
      - FastQC_AfterTrimming:mem_mb=2024
      - Bowtie2_Alignment:mem_mb=102400
      - KrakenUniq:mem_mb=512000
-     - KrakenUniq:runtime=80
+     - KrakenUniq:runtime=1440
      - KrakenUniq:slurm_partition=himem
      - Build_Malt_DB:mem_mb=512000
      - Build_Malt_DB:runtime=480
      - Build_Malt_DB:slurm_partition=himem
-     - Malt:runtime=60
+     - Malt:runtime=480
      - Malt:mem_mb=512000
-   #  - Malt:slurm_partition=himem_week
    ##############################
    # Custom additions requiring additional scripts / resources
    ##############################
    ### Scripts for improving control of job submission
-   #jobscript: "aMeta_ChristinaCarolus_sbatch.sh"
+   #jobscript: ""
    #cluster: sbatch
    jobs: 40
    # cluster-status: "status.py"
 
-Once this is done, create a new ``tmux`` session
+Modify any of the parameters as per your files. The full NT database will require a lot more memory and runtime than just the pathogens database. If you want to know more about the partitions and runtime limits click `here <https://vikingdocs.york.ac.uk/using_viking/resource_partitions.html>`_.
+
+Preparing for the run
+------------
+
+Once this is done, create a new ``tmux`` session, and vertically divide the terminal using the commands ``Ctrl B`` +  ``%``. To move between panes, use ``Ctrl B`` + ``→`` to move to the right pane or ``Ctrl B`` + ``←`` to move to the left. For more ``tmux`` options look up tmux cheatsheets.
+
+In the right pane, activate the aMeta Conda environment
+
+.. code-block:: console
+
+   conda activate aMeta
+
+Next, go into the aMeta folder or your work directory and create all the Conda environments such as MapDamage, Krona, FastQC, etc (a total of nine environments). This will take a bit of time to install. You can also use local Viking modules by editing ``envmodules.yaml`` in the ``config`` folder. To avoid dependency conflicts, I use the Conda environments. 
+
+.. code-block:: console
+
+   cd aMeta
+   # install job-specific environments, and mention conda-frontend else it will try to use libmamba
+   snakemake --snakefile workflow/Snakefile --use-conda --conda-create-envs-only -j 20 --conda-frontend conda
+
+Then update the Krona taxonomy
+
+.. code-block:: console
+
+   env=$(grep krona .snakemake/conda/*yaml | awk '{print $1}' | sed -e "s/.yaml://g" | head -1)
+   cd $env/opt/krona/
+   ./updateTaxonomy.sh taxonomy
+   cd -
+
+Modify default Java heap space parameters for Malt jobs
+
+.. code-block:: console
+
+   env=$(grep hops .snakemake/conda/*yaml | awk '{print $1}' | sed -e "s/.yaml://g" | head -1)
+   conda activate $env
+   version=$(conda list malt --json | grep version | sed -e "s/\"//g" | awk '{print $2}')
+   cd $env/opt/malt-$version
+   sed -i -e "s/-Xmx64G/-Xmx512G/" malt-build.vmoptions
+   sed -i -e "s/-Xmx64G/-Xmx512G/" malt-run.vmoptions
+   cd -
+   conda deactivate
+
+Running aMeta
+------------
+
+Time to run aMeta! But before that, do a Snakemake dry run, which will check if the workflow is defined properly. This can be done by adding ``-n`` in the command (dry run). It will tell you if there are an issues with your workflow, and will estimate computation times. 
+
+.. code-block:: console
+
+   snakemake --snakefile ../workflow/Snakefile --use-conda --profile profile \
+   --cluster "sbatch --time={resources.runtime} --mem={resources.mem_mb} --cpus-per-task={resources.threads} \
+   --partition={resources.slurm_partition} \
+   --job-name={rule} --output=slurm_logs/{rule}/{rule}_%j.log --error=slurm_logs/{rule}/{rule}_%j.err" \
+   --printshellcmds --rerun-incomplete --conda-frontend conda  --cluster-cancel "scancel" -n
+
+Now, run the same command as above but without ``-n``. This should submit a series of jobs to the Slurm scheduler. 
+
+To monitor which jobs are running, navigate to the second pane of your vertically split tmux session, and type 
+
+.. code-block:: console
+
+   watch squeue --me
+
+This will update every two seconds. 
+
+
+
+
+
+
+
+
 
 
 
