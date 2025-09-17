@@ -232,28 +232,33 @@ To monitor which jobs are running, navigate to the second pane of your verticall
 This will update every two seconds. 
 
 
+Optional steps
+------------
 
+If the jobs are cancelled on Slurm due to insufficient runtime or memory, Snakemake does not automatically stop, but will hang. In order to prevent this, copy the following script and name it ``slurm_script.py`` where a failed Slurm job wil flag Snakemake, and the workflow will either keep going or terminate (depending on the step). 
 
+.. code-block:: console
 
+   #!/usr/bin/env python
+   import subprocess
+   import sys
+   
+   jobid = sys.argv[1]
+   
+   output = str(subprocess.check_output("sacct -j %s --format State --noheader | head -1 | awk '{print $1}'" % jobid, shell=True).strip())
+   
+   running_status=["PENDING", "CONFIGURING", "COMPLETING", "RUNNING", "SUSPENDED"]
+   if "COMPLETED" in output:
+     print("success")
+   elif any(r in output for r in running_status):
+     print("running")
+   else:
+     print("failed")
 
+Change permissions on the file so it is executable:
 
+.. code-block:: console
 
+   chmod +x slurm_script.py
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+In ``profile/config.yaml``, at the bottom of the file, change ``# cluster-status: "status.py"`` to ``cluster-status: "slurm_status.py"``, and add ``--parsable`` inside the ``--cluster "sbatch ..."`` section of the Snakemake command. This will ensure that Snakemake receives the job status from Slurm, and will terminate or continue depending on the job. 
