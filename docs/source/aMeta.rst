@@ -53,7 +53,9 @@ aMeta requires Conda for installation.
 Running the test
 ------------
 
-8. Submit the test job by sbatch rather than running it directly on the login node (shell script here)
+8. Submit the test job by sbatch rather than running it directly on the login node. 
+
+Example shell script:
 
 .. code-block:: console 
 
@@ -66,9 +68,10 @@ Running the test
    #SBATCH --mem=64G                        # Total memory to request
    #SBATCH --account=arch-adna-2019       # Project account to use
    #SBATCH --mail-type=ALL            # Mail events (NONE, BEGIN, END, FAIL, ALL)
-   #SBATCH --mail-user=surabhi.ranavat@york.ac.uk   # Where to send mail
+   #SBATCH --mail-user=abc@york.ac.uk   # Where to send mail
    #SBATCH --output=%x-%j.log              # Standard output log
    #SBATCH --error=%x-%j.err               # Standard error log
+   #SBATCH -D /path/to/aMeta/.test
    
    # Abort if any command fails
    set -e
@@ -83,8 +86,6 @@ Running the test
    
    # Commands to run
    echo Job started on $(date)
-   
-   cd /users/spv523/scratch/aMeta/.test
    
    ./runtest.sh -j 16
    
