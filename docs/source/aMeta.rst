@@ -55,6 +55,41 @@ Running the test
 
 8. Submit the test job by sbatch rather than running it directly on the login node (shell script here)
 
+.. code-block:: console 
+
+   #!/usr/bin/env bash
+   #SBATCH --job-name=aMeta_test            # Job name
+   #SBATCH --partition=nodes               # What partition the job should run on
+   #SBATCH --time=05:00:00               # Time limit (DD-HH:MM:SS)
+   #SBATCH --ntasks=1                      # Number of MPI tasks to request
+   #SBATCH --cpus-per-task=16               # Number of CPU cores per MPI task
+   #SBATCH --mem=64G                        # Total memory to request
+   #SBATCH --account=arch-adna-2019       # Project account to use
+   #SBATCH --mail-type=ALL            # Mail events (NONE, BEGIN, END, FAIL, ALL)
+   #SBATCH --mail-user=surabhi.ranavat@york.ac.uk   # Where to send mail
+   #SBATCH --output=%x-%j.log              # Standard output log
+   #SBATCH --error=%x-%j.err               # Standard error log
+   
+   # Abort if any command fails
+   set -e
+   
+   # Purge any previously loaded modules
+   module purge
+   
+   # Load modules
+   . /opt/apps/eb/software/Miniforge/24.3.0-0/etc/profile.d/conda.sh
+   
+   conda activate aMeta
+   
+   # Commands to run
+   echo Job started on $(date)
+   
+   cd /users/spv523/scratch/aMeta/.test
+   
+   ./runtest.sh -j 16
+   
+   echo Job ended on $(date)
+
 
 Preparing fastq files for your run
 ------------
