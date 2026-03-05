@@ -7,7 +7,7 @@ Prerequisites
 -------------
 
 - Paired-end FASTQ files named with pattern ``*_1.fastq.gz`` and ``*_2.fastq.gz`` or ``*_1.fq.gz`` and ``*_2.fq.gz``
-- Or prepare a TSV file as per the instructions `here <https://nf-co.re/eager/2.5.3/docs/usage/#tsv-input-method>`using this `template <https://raw.githubusercontent.com/nf-core/test-datasets/eager/reference/TSV_template.tsv>`
+- Or prepare a TSV file as per the instructions `here <https://nf-co.re/eager/2.5.3/docs/usage/#tsv-input-method>`_ using this `template <https://raw.githubusercontent.com/nf-core/test-datasets/eager/reference/TSV_template.tsv>`_ .
 
 Downloading nf-core/eager
 ------------
