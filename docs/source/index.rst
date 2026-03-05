@@ -18,3 +18,4 @@ Contents
 
    Signing up and Logging in <signingup>
    aMeta instructions <aMeta>
+   nf-core/eager instructions <eager>
