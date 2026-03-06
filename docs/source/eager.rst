@@ -86,7 +86,7 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
    -with-singularity "${SINGULARITY_CACHEDIR}/nfcore-eager-2.5.3.img" \
    -c "${SHARED_CONFIG}"
 
-We are using a combination of the `University of York institutional profile<https://nf-co.re/configs/york_viking/>`_ , singularity, and a custom configuration. 
+We are using a combination of the `University of York institutional profile <https://nf-co.re/configs/york_viking/>`_ , singularity, and a custom configuration. 
 The ``-resume`` flag allows the pipeline to continue from the last completed step if it fails or is interrupted.
 
 Monitoring Progress
