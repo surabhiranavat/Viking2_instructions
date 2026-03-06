@@ -66,7 +66,7 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
 
    SHARED_CONFIG="/mnt/scratch/projects/arch-adna-2019/eager/configs/viking.config"
    INPUT_DATA="/path/to/data/*_{1,2}.fastq.gz"  # or .fq.gz
-   REF_DIR="/path/to/reference/"
+   REF_DIR="/path/to/reference"
    REFERENCE="${REF_DIR}/genome.fasta"
    BWA_INDEX="${REF_DIR}"
    OUTPUT_DIR="${BASE_DIR}/results"
