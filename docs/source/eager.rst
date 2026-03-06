@@ -9,7 +9,7 @@ Prerequisites
 - Paired-end FASTQ files named with pattern ``*_1.fastq.gz`` and ``*_2.fastq.gz`` or ``*_1.fq.gz`` and ``*_2.fq.gz``
 - Or prepare a TSV file as per the instructions `here <https://nf-co.re/eager/2.5.3/docs/usage/#tsv-input-method>`_ using this `template <https://raw.githubusercontent.com/nf-core/test-datasets/eager/reference/TSV_template.tsv>`_ .
 
-Downloading nf-core/eager
+Setup and Execution
 ------------
 
 1. Start a new tmux session
@@ -35,7 +35,8 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
 
 .. code-block:: console
 
-   USER="your_username" # replace with your actual username
+   #Set your username for ease of specifying paths
+   USER="your_username" 
 
    # Set the path to the directory where you want to run eager from 
    BASE_DIR="/users/$USER/scratch/eager"
@@ -86,4 +87,19 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
 
 The ``-resume`` flag allows the pipeline to continue from the last completed step if it fails or is interrupted.
 
+Monitoring Progress
+-------------------
 
+.. code-block:: console
+
+   # To detach from your tmux session
+   # Press: Ctrl+b, then d
+
+   # Check SLURM job status
+   squeue --me
+   
+   # Watch Nextflow log in real-time in your $BASE_DIR
+   tail -f .nextflow.log
+
+   # Reattach to tmux session later
+   tmux attach -t eager
