@@ -106,3 +106,20 @@ Monitoring Progress
 
    # Reattach to tmux session later
    tmux attach -t eager
+
+Cleaning up the directories
+-------------------
+
+To clean up the intermediate files, run
+
+.. code-block:: console
+
+   nextflow clean -f -k #-f is for force and -k is to keep the most recent successful run's cached result
+
+You can still resume your job after cleaning
+
+After your run has successfully completed and you don't need to resume or repeat the pipeline for any of the samples, you can safely delete the work directory. 
+
+.. code-block:: console
+
+   rm -rf work # or rm -r work if you want the safety prompts
