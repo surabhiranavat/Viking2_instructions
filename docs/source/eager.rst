@@ -1,4 +1,4 @@
-Instructions for installing and running nf-core/eager
+Instructions for installing and running nf-core/eager v2.5.3
 =====
 
 `nf-core/eager <https://nf-co.re/eager/2.5.3>`_ is a Nextflow-based pipeline for processing ancient DNA data.
@@ -74,6 +74,8 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
 5. Run the pipeline 
 ^^^^^^^^^^^^^^^^^^^
 
+We are using a combination of the `University of York institutional profile <https://nf-co.re/configs/york_viking/>`_ , singularity, and a custom configuration to be able to run the script using Slurm as an executor and the container for eager. 
+
 .. code-block:: console
 
    nextflow run nf-core/eager \
@@ -85,8 +87,7 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
    -profile york_viking,singularity \
    -with-singularity "${SINGULARITY_CACHEDIR}/nfcore-eager-2.5.3.img" \
    -c "${SHARED_CONFIG}"
-
-We are using a combination of the `University of York institutional profile <https://nf-co.re/configs/york_viking/>`_ , singularity, and a custom configuration. 
+ 
 The ``-resume`` flag allows the pipeline to continue from the last completed step if it fails or is interrupted.
 
 Monitoring Progress
