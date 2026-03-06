@@ -36,9 +36,6 @@ Using tmux allows your pipeline to continue running even if you disconnect from 
 
 .. code-block:: console
 
-   #Set your username for ease of specifying paths
-   USER="your_username" 
-
    # Set the path to the directory where you want to run eager from 
    BASE_DIR="/users/$USER/scratch/eager"
 
