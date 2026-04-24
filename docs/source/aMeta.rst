@@ -97,6 +97,13 @@ Preparing fastq files for your run
 
 aMeta only accepts single end reads, so if you have paired-end reads, use `AdapterRemoval <https://adapterremoval.readthedocs.io/en/2.3.x/index.html>`_ to merge the reads (shell script here). Ensure that your reads end with the prefix `.fastq.gz`. 
 
+If you used AdapterRemoval to merge the reads, the merged reads will be in a file with the suffix ``.collapsed.gz``. You can rename this to end with ``.fastq.gz`` for aMeta to recognise it.
+
+.. code-block:: console
+
+   rename .collapsed. .fastq. *collapsed.gz
+
+
 You can also just concatenate the forward and reverse read pairs, or use `fastp <https://github.com/OpenGene/fastp>`_ to merge the reads as recommended `here <https://github.com/NBISweden/aMeta>`_ in the FAQ section.
 
 
@@ -106,6 +113,26 @@ Preparing the config files
 Creating the sample tsv
 ^^^^^^^^^^^^
 Create the sample tsv file in the config folder in your aMeta directory. Ensure the sample names are concise and without an excess of special characters, e.g., ``SAMPLE1`` instead of ``Sample1_project_year_x%x``. 
+
+For a more efficient way to create the sample tsv file, you can use the following command, which will read a list of file names (without the .fastq.gz suffix) from a text file, and create a tab separated file with the sample name and the path to the fastq file.
+
+First, create a text file with the list of sample names:
+
+.. code-block:: console
+   
+   SAMPLE1
+   SAMPLE2
+   SAMPLE3
+
+Then, use the following command to create the sample tsv file:
+
+.. code-block:: console
+
+awk 'BEGIN{print "sample\tfastq"}
+{
+  base="/path/to/collapsed/fastq/"
+  print $1 "\t" base $1".fastq.gz"
+}' list_of_file_names.txt > sample_projectname.tsv
 
 .. code-block:: console
 
