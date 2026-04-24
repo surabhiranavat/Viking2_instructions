@@ -128,11 +128,11 @@ Then, use the following command to create the sample tsv file:
 
 .. code-block:: console
 
-awk 'BEGIN{print "sample\tfastq"}
-{
-  base="/path/to/collapsed/fastq/"
-  print $1 "\t" base $1".fastq.gz"
-}' list_of_file_names.txt > sample_projectname.tsv
+   awk 'BEGIN{print "sample\tfastq"}
+   {
+    base="/path/to/collapsed/fastq/"
+    print $1 "\t" base $1".fastq.gz"
+   }' list_of_file_names.txt > sample_projectname.tsv
 
 .. code-block:: console
 
