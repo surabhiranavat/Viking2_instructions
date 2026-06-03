@@ -279,7 +279,7 @@ Time to run aMeta! But before that, do a Snakemake dry run, which will check if 
 .. code-block:: console
 
    snakemake --snakefile ../workflow/Snakefile --use-conda --profile profile \
-   --cluster "sbatch --time={resources.runtime} --mem={resources.mem_mb} --cpus-per-task={resources.threads} \
+   --cluster "sbatch --time={resources.runtime} --mem={resources.mem_mb} --cpus-per-task={threads} \
    --partition={resources.slurm_partition} \
    --job-name={rule} --output=slurm_logs/{rule}/{rule}_%j.log --error=slurm_logs/{rule}/{rule}_%j.err" \
    --printshellcmds --rerun-incomplete --conda-frontend conda  --cluster-cancel "scancel" -n
