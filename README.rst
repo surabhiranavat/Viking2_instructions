@@ -1,9 +1,6 @@
-Template for the Read the Docs tutorial
+Template for the Viking2 instructions for ancient DNA (Read the Docs)
 =======================================
 
-This GitHub template includes fictional Python library
-with some basic Sphinx docs.
+To check the documentation go to:
 
-Read the tutorial here:
-
-https://docs.readthedocs.io/en/stable/tutorial/
+https://viking2-instructions.readthedocs.io/en/latest/
